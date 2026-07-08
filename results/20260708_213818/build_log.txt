@@ -1,0 +1,6 @@
+CMake Error: CMake was unable to find a build program corresponding to "Ninja".  CMAKE_MAKE_PROGRAM is not set.  You probably need to select a different build tool.
+CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage
+CMake Error: CMAKE_C_COMPILER not set, after EnableLanguage
+-- Configuring incomplete, errors occurred!
+See also "/home/buddywhitman/Documents/repos/hft-engine/build/CMakeFiles/CMakeOutput.log".
+./scripts/full_test.sh: line 96: ninja: command not found

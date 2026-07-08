@@ -1,0 +1,35 @@
+=== System Info ===
+Linux buddywhitmans-nitro 6.5.0-18-generic #18~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Wed Feb  7 11:40:03 UTC 2 x86_64 x86_64 x86_64 GNU/Linux
+
+=== CPU Info ===
+Model name:                         12th Gen Intel(R) Core(TM) i7-12650H
+Model:                              154
+Thread(s) per core:                 2
+Core(s) per socket:                 10
+CPU max MHz:                        4700.0000
+CPU min MHz:                        400.0000
+
+=== Memory Info ===
+               total        used        free      shared  buff/cache   available
+Mem:            31Gi       883Mi        28Gi       110Mi       1.3Gi        29Gi
+Swap:             0B          0B          0B
+
+=== Hugepages ===
+AnonHugePages:         0 kB
+ShmemHugePages:    83968 kB
+FileHugePages:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+
+=== Governor ===
+powersave
+[WARN] Governor is not 'performance'. Benchmark numbers will be noisier.
+[WARN] Fix: sudo cpupower frequency-set -g performance
+
+=== perf availability ===
+perf_event_paranoid: 1
+perf usable without sudo: no
