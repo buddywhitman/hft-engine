@@ -1,0 +1,34 @@
+2026-07-08T16:54:29+05:30
+Running ./1_orderbook/bench_mpsc
+Run on (4 X 2965.94 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.30, 3.74, 1.85
+---------------------------------------------------------------
+Benchmark                     Time             CPU   Iterations
+---------------------------------------------------------------
+mpsc_single_producer      30285 ns        30280 ns        22777
+mpsc_multi_producer      295787 ns       134315 ns         5211
+
+ Performance counter stats for './1_orderbook/bench_mpsc':
+
+     6,765,922,520      cycles                                                                  (48.11%)
+    11,873,803,338      instructions                     #    1.75  insn per cycle              (60.54%)
+       204,665,429      cache-references                                                        (59.87%)
+        24,524,289      cache-misses                     #   11.98% of all cache refs           (59.70%)
+        13,456,297      LLC-loads                                                               (63.09%)
+           423,040      LLC-load-misses                  #    3.14% of all LL-cache accesses    (65.14%)
+     2,471,299,946      branches                                                                (52.56%)
+         6,623,850      branch-misses                    #    0.27% of all branches             (51.53%)
+             7,005      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       2.902092063 seconds time elapsed
+
+       1.564715000 seconds user
+       1.112791000 seconds sys
+
+

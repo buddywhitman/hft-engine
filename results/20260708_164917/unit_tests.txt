@@ -1,0 +1,31 @@
+
+=== SPSC Queue Tests ===
+Randomness seeded to: 3122130017
+===============================================================================
+All tests passed (387 assertions in 5 test cases)
+
+✓ SPSC Queue Tests passed
+
+=== MPSC Queue Tests ===
+Randomness seeded to: 1481375689
+===============================================================================
+All tests passed (112 assertions in 4 test cases)
+
+✓ MPSC Queue Tests passed
+
+=== Order Book Tests ===
+Randomness seeded to: 81671828
+===============================================================================
+All tests passed (20 assertions in 7 test cases)
+
+✓ Order Book Tests passed
+
+=== FIX Parser Tests ===
+Randomness seeded to: 3193215515
+===============================================================================
+All tests passed (21 assertions in 9 test cases)
+
+✓ FIX Parser Tests passed
+
+=== AF_XDP Tests (Linux only) ===
+⊘ AF_XDP Tests (Linux only) binary not built (see build_log.txt)

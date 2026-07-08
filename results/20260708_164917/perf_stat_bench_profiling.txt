@@ -1,0 +1,46 @@
+2026-07-08T16:54:32+05:30
+Running ./1_orderbook/bench_profiling
+Run on (4 X 2899.98 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.19, 3.74, 1.87
+----------------------------------------------------------------------------------------------------------
+Benchmark                                                Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------------------
+profile_spsc_throughput                               1.74 us         1.74 us       403914 max_cycles=34.218k p50_cycles=22 p95_cycles=24 p99.9_cycles=48 p99_cycles=24 throughput=57.5757M/s
+profile_orderbook_add_scaling/10                     0.042 us        0.042 us     15180883 levels=10 p50_cycles=202 p99_cycles=292
+profile_orderbook_add_scaling/50                     0.042 us        0.042 us     15226037 levels=50 p50_cycles=204 p99_cycles=280
+profile_orderbook_add_scaling/100                    0.041 us        0.041 us     15256230 levels=100 p50_cycles=200 p99_cycles=268
+profile_orderbook_add_scaling/500                    0.042 us        0.042 us     14948507 levels=500 p50_cycles=218 p99_cycles=314
+profile_orderbook_match_scaling/1                    0.029 us        0.029 us     23357573 cross_levels=1 max_cycles=914 p50_cycles=74 p99_cycles=92
+profile_orderbook_match_scaling/5                    0.035 us        0.035 us     19727429 cross_levels=5 max_cycles=882 p50_cycles=198 p99_cycles=240
+profile_orderbook_match_scaling/10                   0.051 us        0.051 us     13560185 cross_levels=10 max_cycles=70.342k p50_cycles=354 p99_cycles=548
+profile_orderbook_match_scaling/20                   0.057 us        0.057 us     12020514 cross_levels=20 max_cycles=1.568k p50_cycles=674 p99_cycles=720
+profile_orderbook_match_scaling/50                   0.113 us        0.113 us      5245999 cross_levels=50 max_cycles=64.432k p50_cycles=1.756k p99_cycles=3.416k
+profile_memory_bandwidth                             19252 ns        19244 ns        36056 cycles_per_kb=74.144
+profile_cache_miss_latency                            1979 ns         1979 ns       355784 cycles_per_access=4.64
+profile_branch_prediction                            16750 ns        16747 ns        40571 cycles_predictable=4.22
+profile_realistic_workload_mix/iterations:10000       91.3 ns         91.2 ns        10000 max_cycles=62.73k mean_cycles=196.837 p50_cycles=176 p95_cycles=304 p99.9_cycles=6.334k p99_cycles=488 stddev_cycles=841.088
+
+ Performance counter stats for './1_orderbook/bench_profiling':
+
+    51,019,104,669      cycles                                                                  (49.99%)
+    69,284,091,798      instructions                     #    1.36  insn per cycle              (62.49%)
+     1,110,416,635      cache-references                                                        (62.51%)
+       232,080,549      cache-misses                     #   20.90% of all cache refs           (62.51%)
+        58,084,932      LLC-loads                                                               (62.51%)
+         3,484,124      LLC-load-misses                  #    6.00% of all LL-cache accesses    (62.50%)
+    10,841,318,938      branches                                                                (49.99%)
+       150,528,483      branch-misses                    #    1.39% of all branches             (49.99%)
+               103      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+      17.691942469 seconds time elapsed
+
+      14.937559000 seconds user
+       2.751182000 seconds sys
+
+

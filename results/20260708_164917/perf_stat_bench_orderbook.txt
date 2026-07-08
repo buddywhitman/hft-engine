@@ -1,0 +1,35 @@
+2026-07-08T16:54:32+05:30
+Running ./1_orderbook/bench_orderbook
+Run on (4 X 2943.2 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.19, 3.74, 1.87
+---------------------------------------------------------------------------------------------------------
+Benchmark                                               Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------------------------
+orderbook_add_order_no_match/iterations:100000        261 ns          261 ns       100000 p50_ns=99 p95_ns=711 p99.9_ns=4.126k p99_ns=2.263k
+orderbook_with_matching/iterations:100000            44.4 ns         44.4 ns       100000 p50_ns=23 p95_ns=25 p99_ns=30
+orderbook_sequential_adds/iterations:100            71408 ns        71397 ns          100 max_ns=703.941k p50_ns=25 p99.99_ns=7.804k p99_ns=31
+
+ Performance counter stats for './1_orderbook/bench_orderbook':
+
+       598,976,891      cycles                                                                  (49.69%)
+       527,819,125      instructions                     #    0.88  insn per cycle              (62.52%)
+         9,729,847      cache-references                                                        (62.99%)
+         6,154,342      cache-misses                     #   63.25% of all cache refs           (63.08%)
+           857,965      LLC-loads                                                               (63.00%)
+           151,509      LLC-load-misses                  #   17.66% of all LL-cache accesses    (62.66%)
+        84,354,567      branches                                                                (49.33%)
+         1,678,606      branch-misses                    #    1.99% of all branches             (49.26%)
+                 1      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       0.209060846 seconds time elapsed
+
+       0.092609000 seconds user
+       0.119496000 seconds sys
+
+
