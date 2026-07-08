@@ -1,0 +1,36 @@
+2026-07-08T17:30:22+05:30
+Running ./1_orderbook/bench_realistic
+Run on (4 X 2899.96 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.08, 3.67, 1.83
+------------------------------------------------------------------------------------------------------------
+Benchmark                                                  Time             CPU   Iterations UserCounters...
+------------------------------------------------------------------------------------------------------------
+realistic_deep_ladder_insert/iterations:10000           50.1 ns         50.0 ns        10000 p50_ns=27 p95_ns=29 p99.9_ns=102 p99_ns=31
+realistic_multi_level_match/iterations:10000            43.6 ns         43.5 ns        10000 p50_ns=23 p95_ns=24 p99_ns=25
+realistic_order_churn/iterations:1000                   1459 ns         1458 ns         1000 p50_ns=45 p95_ns=85 p99.9_ns=2.205k p99_ns=137
+realistic_market_order_worst_case/iterations:1000       5515 ns         5513 ns         1000 max_ns=35.084k p50_ns=2.605k p99_ns=11.598k
+
+ Performance counter stats for './1_orderbook/bench_realistic':
+
+       625,566,828      cycles                                                                  (49.31%)
+       502,135,969      instructions                     #    0.80  insn per cycle              (61.99%)
+         7,941,221      cache-references                                                        (62.45%)
+         6,847,996      cache-misses                     #   86.23% of all cache refs           (62.89%)
+           252,974      LLC-loads                                                               (63.21%)
+           141,078      LLC-load-misses                  #   55.77% of all LL-cache accesses    (62.95%)
+        83,821,958      branches                                                                (49.80%)
+           230,600      branch-misses                    #    0.28% of all branches             (49.39%)
+                 2      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       0.218600184 seconds time elapsed
+
+       0.070134000 seconds user
+       0.151289000 seconds sys
+
+

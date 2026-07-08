@@ -1,0 +1,35 @@
+2026-07-08T17:30:17+05:30
+Running ./1_orderbook/bench_spsc
+Run on (4 X 2900.01 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.43, 3.71, 1.84
+----------------------------------------------------------------------------------------------------
+Benchmark                                          Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------------
+spsc_push_pop_ping_pong/iterations:100000       30.8 ns         30.5 ns       100000 p50_ns=13 p95_ns=14 p99.9_ns=17 p99_ns=15
+spsc_throughput_push_only                      47039 ns        47034 ns        14915
+spsc_throughput_sustained/iterations:10        39427 ns        39432 ns           10 max_ns=389 p50_ns=12 p99_ns=15
+
+ Performance counter stats for './1_orderbook/bench_spsc':
+
+     3,546,570,315      cycles                                                                  (49.99%)
+     4,525,478,549      instructions                     #    1.28  insn per cycle              (62.49%)
+        68,657,748      cache-references                                                        (62.49%)
+           515,343      cache-misses                     #    0.75% of all cache refs           (62.50%)
+           234,413      LLC-loads                                                               (62.49%)
+            11,503      LLC-load-misses                  #    4.91% of all LL-cache accesses    (62.51%)
+       822,262,411      branches                                                                (50.00%)
+           277,947      branch-misses                    #    0.03% of all branches             (50.01%)
+                 9      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       1.229893600 seconds time elapsed
+
+       1.225326000 seconds user
+       0.007001000 seconds sys
+
+

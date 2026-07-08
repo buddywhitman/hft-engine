@@ -1,0 +1,283 @@
+=== Benchmark: bench_spsc ===
+Binary: ./1_orderbook/bench_spsc
+Date: Wed Jul  8 05:30:17 PM IST 2026
+
+2026-07-08T17:30:17+05:30
+Running ./1_orderbook/bench_spsc
+Run on (4 X 2900.01 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.43, 3.71, 1.84
+----------------------------------------------------------------------------------------------------
+Benchmark                                          Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------------
+spsc_push_pop_ping_pong/iterations:100000       30.8 ns         30.5 ns       100000 p50_ns=13 p95_ns=14 p99.9_ns=17 p99_ns=15
+spsc_throughput_push_only                      47039 ns        47034 ns        14915
+spsc_throughput_sustained/iterations:10        39427 ns        39432 ns           10 max_ns=389 p50_ns=12 p99_ns=15
+
+ Performance counter stats for './1_orderbook/bench_spsc':
+
+     3,546,570,315      cycles                                                                  (49.99%)
+     4,525,478,549      instructions                     #    1.28  insn per cycle              (62.49%)
+        68,657,748      cache-references                                                        (62.49%)
+           515,343      cache-misses                     #    0.75% of all cache refs           (62.50%)
+           234,413      LLC-loads                                                               (62.49%)
+            11,503      LLC-load-misses                  #    4.91% of all LL-cache accesses    (62.51%)
+       822,262,411      branches                                                                (50.00%)
+           277,947      branch-misses                    #    0.03% of all branches             (50.01%)
+                 9      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       1.229893600 seconds time elapsed
+
+       1.225326000 seconds user
+       0.007001000 seconds sys
+
+
+=== Benchmark: bench_mpsc ===
+Binary: ./1_orderbook/bench_mpsc
+Date: Wed Jul  8 05:30:18 PM IST 2026
+
+2026-07-08T17:30:18+05:30
+Running ./1_orderbook/bench_mpsc
+Run on (4 X 2945.51 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.08, 3.67, 1.83
+---------------------------------------------------------------
+Benchmark                     Time             CPU   Iterations
+---------------------------------------------------------------
+mpsc_single_producer      30590 ns        30587 ns        23106
+mpsc_multi_producer      296732 ns       134817 ns         5213
+
+ Performance counter stats for './1_orderbook/bench_mpsc':
+
+     6,798,726,142      cycles                                                                  (49.06%)
+    11,832,138,953      instructions                     #    1.74  insn per cycle              (61.96%)
+       210,422,784      cache-references                                                        (62.76%)
+        25,727,241      cache-misses                     #   12.23% of all cache refs           (63.25%)
+        12,916,332      LLC-loads                                                               (63.96%)
+           391,554      LLC-load-misses                  #    3.03% of all LL-cache accesses    (63.10%)
+     2,576,799,366      branches                                                                (48.90%)
+         7,087,970      branch-misses                    #    0.28% of all branches             (48.96%)
+             7,038      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       2.919060460 seconds time elapsed
+
+       1.502798000 seconds user
+       1.191162000 seconds sys
+
+
+=== Benchmark: bench_orderbook ===
+Binary: ./1_orderbook/bench_orderbook
+Date: Wed Jul  8 05:30:21 PM IST 2026
+
+2026-07-08T17:30:21+05:30
+Running ./1_orderbook/bench_orderbook
+Run on (4 X 2911.67 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.08, 3.67, 1.83
+---------------------------------------------------------------------------------------------------------
+Benchmark                                               Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------------------------
+orderbook_add_order_no_match/iterations:100000        265 ns          265 ns       100000 p50_ns=98 p95_ns=707 p99.9_ns=7.605k p99_ns=2.298k
+orderbook_with_matching/iterations:100000            46.3 ns         46.3 ns       100000 p50_ns=24 p95_ns=26 p99_ns=27
+orderbook_sequential_adds/iterations:100            70456 ns        70449 ns          100 max_ns=694.135k p50_ns=24 p99.99_ns=3.291k p99_ns=29
+
+ Performance counter stats for './1_orderbook/bench_orderbook':
+
+       608,796,540      cycles                                                                  (49.68%)
+       526,090,019      instructions                     #    0.86  insn per cycle              (62.25%)
+        10,016,133      cache-references                                                        (62.21%)
+         5,972,655      cache-misses                     #   59.63% of all cache refs           (62.19%)
+           843,486      LLC-loads                                                               (62.61%)
+           135,652      LLC-load-misses                  #   16.08% of all LL-cache accesses    (62.92%)
+        82,931,417      branches                                                                (50.41%)
+         1,461,036      branch-misses                    #    1.76% of all branches             (49.99%)
+                 3      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       0.214239397 seconds time elapsed
+
+       0.111958000 seconds user
+       0.103961000 seconds sys
+
+
+=== Benchmark: bench_realistic ===
+Binary: ./1_orderbook/bench_realistic
+Date: Wed Jul  8 05:30:21 PM IST 2026
+
+2026-07-08T17:30:22+05:30
+Running ./1_orderbook/bench_realistic
+Run on (4 X 2899.96 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.08, 3.67, 1.83
+------------------------------------------------------------------------------------------------------------
+Benchmark                                                  Time             CPU   Iterations UserCounters...
+------------------------------------------------------------------------------------------------------------
+realistic_deep_ladder_insert/iterations:10000           50.1 ns         50.0 ns        10000 p50_ns=27 p95_ns=29 p99.9_ns=102 p99_ns=31
+realistic_multi_level_match/iterations:10000            43.6 ns         43.5 ns        10000 p50_ns=23 p95_ns=24 p99_ns=25
+realistic_order_churn/iterations:1000                   1459 ns         1458 ns         1000 p50_ns=45 p95_ns=85 p99.9_ns=2.205k p99_ns=137
+realistic_market_order_worst_case/iterations:1000       5515 ns         5513 ns         1000 max_ns=35.084k p50_ns=2.605k p99_ns=11.598k
+
+ Performance counter stats for './1_orderbook/bench_realistic':
+
+       625,566,828      cycles                                                                  (49.31%)
+       502,135,969      instructions                     #    0.80  insn per cycle              (61.99%)
+         7,941,221      cache-references                                                        (62.45%)
+         6,847,996      cache-misses                     #   86.23% of all cache refs           (62.89%)
+           252,974      LLC-loads                                                               (63.21%)
+           141,078      LLC-load-misses                  #   55.77% of all LL-cache accesses    (62.95%)
+        83,821,958      branches                                                                (49.80%)
+           230,600      branch-misses                    #    0.28% of all branches             (49.39%)
+                 2      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       0.218600184 seconds time elapsed
+
+       0.070134000 seconds user
+       0.151289000 seconds sys
+
+
+=== Benchmark: bench_profiling ===
+Binary: ./1_orderbook/bench_profiling
+Date: Wed Jul  8 05:30:22 PM IST 2026
+
+2026-07-08T17:30:22+05:30
+Running ./1_orderbook/bench_profiling
+Run on (4 X 2906.54 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.08, 3.67, 1.83
+----------------------------------------------------------------------------------------------------------
+Benchmark                                                Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------------------
+profile_spsc_throughput                               1.75 us         1.75 us       398108 max_cycles=44.106k p50_cycles=22 p95_cycles=24 p99.9_cycles=26 p99_cycles=24 throughput=57.1489M/s
+profile_orderbook_add_scaling/10                     0.042 us        0.042 us     15021530 levels=10 p50_cycles=204 p99_cycles=288
+profile_orderbook_add_scaling/50                     0.042 us        0.042 us     15067948 levels=50 p50_cycles=198 p99_cycles=272
+profile_orderbook_add_scaling/100                    0.042 us        0.042 us     15062368 levels=100 p50_cycles=200 p99_cycles=274
+profile_orderbook_add_scaling/500                    0.043 us        0.042 us     14923584 levels=500 p50_cycles=214 p99_cycles=280
+profile_orderbook_match_scaling/1                    0.028 us        0.028 us     23506677 cross_levels=1 max_cycles=474 p50_cycles=74 p99_cycles=92
+profile_orderbook_match_scaling/5                    0.035 us        0.035 us     19579067 cross_levels=5 max_cycles=784 p50_cycles=198 p99_cycles=234
+profile_orderbook_match_scaling/10                   0.050 us        0.050 us     13565623 cross_levels=10 max_cycles=1014 p50_cycles=356 p99_cycles=404
+profile_orderbook_match_scaling/20                   0.058 us        0.058 us     11863053 cross_levels=20 max_cycles=2.864k p50_cycles=674 p99_cycles=740
+profile_orderbook_match_scaling/50                   0.112 us        0.112 us      4863422 cross_levels=50 max_cycles=62.574k p50_cycles=1.76k p99_cycles=2.044k
+profile_memory_bandwidth                             19485 ns        19481 ns        35818 cycles_per_kb=74.4928
+profile_cache_miss_latency                            1998 ns         1997 ns       352085 cycles_per_access=4.536
+profile_branch_prediction                            16775 ns        16774 ns        41773 cycles_predictable=3.8806
+profile_realistic_workload_mix/iterations:10000       91.5 ns         91.4 ns        10000 max_cycles=65.828k mean_cycles=197.283 p50_cycles=178 p95_cycles=310 p99.9_cycles=6.234k p99_cycles=478 stddev_cycles=860.528
+
+ Performance counter stats for './1_orderbook/bench_profiling':
+
+    50,540,065,542      cycles                                                                  (49.99%)
+    68,460,479,954      instructions                     #    1.35  insn per cycle              (62.49%)
+     1,086,717,268      cache-references                                                        (62.49%)
+       231,948,693      cache-misses                     #   21.34% of all cache refs           (62.50%)
+        58,100,525      LLC-loads                                                               (62.51%)
+         3,192,977      LLC-load-misses                  #    5.50% of all LL-cache accesses    (62.51%)
+    10,723,276,780      branches                                                                (50.00%)
+       152,505,516      branch-misses                    #    1.42% of all branches             (50.00%)
+               115      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+      17.581446366 seconds time elapsed
+
+      14.845422000 seconds user
+       2.735525000 seconds sys
+
+
+=== Benchmark: bench_fix_pipeline ===
+Binary: ./2_network/bench_fix_pipeline
+Date: Wed Jul  8 05:30:39 PM IST 2026
+
+2026-07-08T17:30:39+05:30
+Running ./2_network/bench_fix_pipeline
+Run on (4 X 2900.01 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 3.92, 3.50, 1.81
+-----------------------------------------------------------------------------------
+Benchmark                         Time             CPU   Iterations UserCounters...
+-----------------------------------------------------------------------------------
+fix_parser_throughput          1.20 ms         1.19 ms          609 items_per_second=13.7426k/s
+fix_parse_with_orderbook       1547 us         1547 us          391 items_per_second=16.5302k/s
+
+ Performance counter stats for './2_network/bench_fix_pipeline':
+
+     5,484,467,224      cycles                                                                  (49.92%)
+    16,184,985,885      instructions                     #    2.95  insn per cycle              (62.46%)
+       120,760,597      cache-references                                                        (62.51%)
+        47,339,830      cache-misses                     #   39.20% of all cache refs           (62.57%)
+         1,606,022      LLC-loads                                                               (62.57%)
+           417,600      LLC-load-misses                  #   26.00% of all LL-cache accesses    (62.56%)
+     4,345,235,720      branches                                                                (49.96%)
+         4,155,488      branch-misses                    #    0.10% of all branches             (49.91%)
+                12      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       1.907360514 seconds time elapsed
+
+       1.690861000 seconds user
+       0.217982000 seconds sys
+
+
+=== Benchmark: bench_af_xdp ===
+Binary: ./2_network/bench_af_xdp
+Date: Wed Jul  8 05:30:41 PM IST 2026
+
+2026-07-08T17:30:41+05:30
+Running ./2_network/bench_af_xdp
+Run on (4 X 2899.98 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 3.92, 3.50, 1.81
+----------------------------------------------------------------------------------------------
+Benchmark                                                    Time             CPU   Iterations
+----------------------------------------------------------------------------------------------
+bench_socket_rx_baseline/iterations:1000                  1373 ns         1372 ns         1000
+bench_kernel_vs_userspace_overhead/iterations:10000       7491 ns         7465 ns        10000 expected_af_xdp_p50_ns=695 p99_ns=22.817k socket_overhead_ns=6.955k
+bench_fix_parse_latency/iterations:100000                 23.8 ns         23.8 ns       100000 p50_ns=14 p99_ns=16
+
+ Performance counter stats for './2_network/bench_af_xdp':
+
+       231,717,222      cycles                                                                  (49.22%)
+       114,361,013      instructions                     #    0.49  insn per cycle              (62.72%)
+           429,170      cache-references                                                        (63.42%)
+           147,155      cache-misses                     #   34.29% of all cache refs           (63.45%)
+            31,763      LLC-loads                                                               (63.44%)
+             8,763      LLC-load-misses                  #   27.59% of all LL-cache accesses    (62.78%)
+         4,502,876      branches                                                                (48.85%)
+            89,233      branch-misses                    #    1.98% of all branches             (48.83%)
+                 2      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       0.080576252 seconds time elapsed
+
+       0.078031000 seconds user
+       0.004001000 seconds sys
+
+

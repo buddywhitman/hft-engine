@@ -1,0 +1,34 @@
+2026-07-08T17:30:39+05:30
+Running ./2_network/bench_fix_pipeline
+Run on (4 X 2900.01 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 3.92, 3.50, 1.81
+-----------------------------------------------------------------------------------
+Benchmark                         Time             CPU   Iterations UserCounters...
+-----------------------------------------------------------------------------------
+fix_parser_throughput          1.20 ms         1.19 ms          609 items_per_second=13.7426k/s
+fix_parse_with_orderbook       1547 us         1547 us          391 items_per_second=16.5302k/s
+
+ Performance counter stats for './2_network/bench_fix_pipeline':
+
+     5,484,467,224      cycles                                                                  (49.92%)
+    16,184,985,885      instructions                     #    2.95  insn per cycle              (62.46%)
+       120,760,597      cache-references                                                        (62.51%)
+        47,339,830      cache-misses                     #   39.20% of all cache refs           (62.57%)
+         1,606,022      LLC-loads                                                               (62.57%)
+           417,600      LLC-load-misses                  #   26.00% of all LL-cache accesses    (62.56%)
+     4,345,235,720      branches                                                                (49.96%)
+         4,155,488      branch-misses                    #    0.10% of all branches             (49.91%)
+                12      context-switches                                                      
+                 0      cpu-migrations                                                        
+
+       1.907360514 seconds time elapsed
+
+       1.690861000 seconds user
+       0.217982000 seconds sys
+
+
