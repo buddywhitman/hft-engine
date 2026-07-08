@@ -1,0 +1,16 @@
+2026-07-08T16:10:59+05:30
+Running ./1_orderbook/bench_orderbook
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 4.97, 3.21, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+---------------------------------------------------------------------------------------------------------
+Benchmark                                               Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------------------------
+orderbook_add_order_no_match/iterations:100000        256 ns          256 ns       100000 p50_ns=100 p95_ns=721 p99.9_ns=4.057k p99_ns=2.4k
+orderbook_with_matching/iterations:100000            44.3 ns         44.3 ns       100000 p50_ns=23 p95_ns=25 p99_ns=25
+orderbook_sequential_adds/iterations:100           108667 ns       108659 ns          100 max_ns=1033.07k p50_ns=42 p99.99_ns=15.678k p99_ns=66

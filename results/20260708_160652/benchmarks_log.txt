@@ -1,0 +1,136 @@
+=== Benchmark: bench_spsc ===
+Binary: ./1_orderbook/bench_spsc
+Date: Wed Jul  8 04:10:54 PM IST 2026
+
+[perf unavailable, running without profiling]
+2026-07-08T16:10:54+05:30
+Running ./1_orderbook/bench_spsc
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.23, 3.24, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+----------------------------------------------------------------------------------------------------
+Benchmark                                          Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------------
+spsc_push_pop_ping_pong/iterations:100000       30.8 ns         30.8 ns       100000 p50_ns=14 p95_ns=16 p99.9_ns=18 p99_ns=16
+spsc_throughput_push_only                      46636 ns        46623 ns        14970
+spsc_throughput_sustained/iterations:10        31781 ns        31756 ns           10 max_ns=495 p50_ns=12 p99_ns=15
+=== Benchmark: bench_mpsc ===
+Binary: ./1_orderbook/bench_mpsc
+Date: Wed Jul  8 04:10:56 PM IST 2026
+
+[perf unavailable, running without profiling]
+2026-07-08T16:10:56+05:30
+Running ./1_orderbook/bench_mpsc
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.23, 3.24, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+---------------------------------------------------------------
+Benchmark                     Time             CPU   Iterations
+---------------------------------------------------------------
+mpsc_single_producer      31316 ns        31297 ns        21048
+mpsc_multi_producer      185233 ns        78131 ns         9120
+=== Benchmark: bench_orderbook ===
+Binary: ./1_orderbook/bench_orderbook
+Date: Wed Jul  8 04:10:59 PM IST 2026
+
+[perf unavailable, running without profiling]
+2026-07-08T16:10:59+05:30
+Running ./1_orderbook/bench_orderbook
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 4.97, 3.21, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+---------------------------------------------------------------------------------------------------------
+Benchmark                                               Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------------------------
+orderbook_add_order_no_match/iterations:100000        256 ns          256 ns       100000 p50_ns=100 p95_ns=721 p99.9_ns=4.057k p99_ns=2.4k
+orderbook_with_matching/iterations:100000            44.3 ns         44.3 ns       100000 p50_ns=23 p95_ns=25 p99_ns=25
+orderbook_sequential_adds/iterations:100           108667 ns       108659 ns          100 max_ns=1033.07k p50_ns=42 p99.99_ns=15.678k p99_ns=66
+=== Benchmark: bench_realistic ===
+Binary: ./1_orderbook/bench_realistic
+Date: Wed Jul  8 04:10:59 PM IST 2026
+
+[perf unavailable, running without profiling]
+2026-07-08T16:10:59+05:30
+Running ./1_orderbook/bench_realistic
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 4.97, 3.21, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+------------------------------------------------------------------------------------------------------------
+Benchmark                                                  Time             CPU   Iterations UserCounters...
+------------------------------------------------------------------------------------------------------------
+realistic_deep_ladder_insert/iterations:10000           47.7 ns         47.5 ns        10000 p50_ns=25 p95_ns=27 p99.9_ns=70 p99_ns=27
+realistic_multi_level_match/iterations:10000            44.1 ns         43.9 ns        10000 p50_ns=23 p95_ns=23 p99_ns=25
+realistic_order_churn/iterations:1000                   1484 ns         1487 ns         1000 p50_ns=44 p95_ns=86 p99.9_ns=2.131k p99_ns=134
+realistic_market_order_worst_case/iterations:1000       5081 ns         5079 ns         1000 max_ns=16.291k p50_ns=2.408k p99_ns=5.747k
+=== Benchmark: bench_profiling ===
+Binary: ./1_orderbook/bench_profiling
+Date: Wed Jul  8 04:10:59 PM IST 2026
+
+[perf unavailable, running without profiling]
+2026-07-08T16:10:59+05:30
+Running ./1_orderbook/bench_profiling
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 4.97, 3.21, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+----------------------------------------------------------------------------------------------------------
+Benchmark                                                Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------------------
+profile_spsc_throughput                               1.75 us         1.75 us       398844 max_cycles=39.69k p50_cycles=22 p95_cycles=22 p99.9_cycles=24 p99_cycles=24 throughput=57.0219M/s
+profile_orderbook_add_scaling/10                     0.040 us        0.040 us     16017041 levels=10 p50_cycles=210 p99_cycles=344
+profile_orderbook_add_scaling/50                     0.040 us        0.040 us     16012720 levels=50 p50_cycles=206 p99_cycles=288
+profile_orderbook_add_scaling/100                    0.040 us        0.040 us     15799988 levels=100 p50_cycles=202 p99_cycles=272
+profile_orderbook_add_scaling/500                    0.040 us        0.040 us     15577597 levels=500 p50_cycles=238 p99_cycles=314
+profile_orderbook_match_scaling/1                    0.028 us        0.028 us     23846617 cross_levels=1 max_cycles=428 p50_cycles=74 p99_cycles=88
+profile_orderbook_match_scaling/5                    0.034 us        0.034 us     20075264 cross_levels=5 max_cycles=834 p50_cycles=200 p99_cycles=230
+profile_orderbook_match_scaling/10                   0.049 us        0.049 us     13911475 cross_levels=10 max_cycles=1066 p50_cycles=350 p99_cycles=402
+profile_orderbook_match_scaling/20                   0.064 us        0.064 us     10554569 cross_levels=20 max_cycles=1.598k p50_cycles=680 p99_cycles=744
+profile_orderbook_match_scaling/50                   0.111 us        0.111 us      5314543 cross_levels=50 max_cycles=44.854k p50_cycles=1.786k p99_cycles=1.97k
+profile_memory_bandwidth                             19212 ns        19205 ns        36146 cycles_per_kb=74.3744
+profile_cache_miss_latency                            1981 ns         1980 ns       354891 cycles_per_access=4.458
+profile_branch_prediction                            13745 ns        13740 ns        49478 cycles_predictable=3.4206
+profile_realistic_workload_mix/iterations:10000       88.2 ns         88.1 ns        10000 max_cycles=64.384k mean_cycles=190.208 p50_cycles=174 p95_cycles=294 p99.9_cycles=6.302k p99_cycles=438 stddev_cycles=794.637
+=== Benchmark: bench_fix_pipeline ===
+Binary: ./2_network/bench_fix_pipeline
+Date: Wed Jul  8 04:11:17 PM IST 2026
+
+[perf unavailable, running without profiling]
+2026-07-08T16:11:17+05:30
+Running ./2_network/bench_fix_pipeline
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 3.84, 3.07, 1.52
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+-----------------------------------------------------------------------------------
+Benchmark                         Time             CPU   Iterations UserCounters...
+-----------------------------------------------------------------------------------
+fix_parser_throughput          1.17 ms         1.17 ms          592 items_per_second=14.495k/s
+fix_parse_with_orderbook       1583 us         1583 us          372 items_per_second=16.9791k/s

@@ -1,0 +1,16 @@
+2026-07-08T16:10:54+05:30
+Running ./1_orderbook/bench_spsc
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.23, 3.24, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+----------------------------------------------------------------------------------------------------
+Benchmark                                          Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------------
+spsc_push_pop_ping_pong/iterations:100000       30.8 ns         30.8 ns       100000 p50_ns=14 p95_ns=16 p99.9_ns=18 p99_ns=16
+spsc_throughput_push_only                      46636 ns        46623 ns        14970
+spsc_throughput_sustained/iterations:10        31781 ns        31756 ns           10 max_ns=495 p50_ns=12 p99_ns=15

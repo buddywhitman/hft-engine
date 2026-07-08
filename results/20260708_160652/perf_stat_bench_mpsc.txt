@@ -1,0 +1,15 @@
+2026-07-08T16:10:56+05:30
+Running ./1_orderbook/bench_mpsc
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 5.23, 3.24, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+---------------------------------------------------------------
+Benchmark                     Time             CPU   Iterations
+---------------------------------------------------------------
+mpsc_single_producer      31316 ns        31297 ns        21048
+mpsc_multi_producer      185233 ns        78131 ns         9120

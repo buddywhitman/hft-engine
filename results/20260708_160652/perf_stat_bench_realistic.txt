@@ -1,0 +1,17 @@
+2026-07-08T16:10:59+05:30
+Running ./1_orderbook/bench_realistic
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 4.97, 3.21, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+------------------------------------------------------------------------------------------------------------
+Benchmark                                                  Time             CPU   Iterations UserCounters...
+------------------------------------------------------------------------------------------------------------
+realistic_deep_ladder_insert/iterations:10000           47.7 ns         47.5 ns        10000 p50_ns=25 p95_ns=27 p99.9_ns=70 p99_ns=27
+realistic_multi_level_match/iterations:10000            44.1 ns         43.9 ns        10000 p50_ns=23 p95_ns=23 p99_ns=25
+realistic_order_churn/iterations:1000                   1484 ns         1487 ns         1000 p50_ns=44 p95_ns=86 p99.9_ns=2.131k p99_ns=134
+realistic_market_order_worst_case/iterations:1000       5081 ns         5079 ns         1000 max_ns=16.291k p50_ns=2.408k p99_ns=5.747k

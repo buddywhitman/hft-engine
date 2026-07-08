@@ -1,0 +1,53 @@
+
+=== SPSC Queue Tests ===
+Randomness seeded to: 3846807674
+===============================================================================
+All tests passed (387 assertions in 5 test cases)
+
+✓ SPSC Queue Tests passed
+
+=== MPSC Queue Tests ===
+Randomness seeded to: 4176703029
+===============================================================================
+All tests passed (112 assertions in 4 test cases)
+
+✓ MPSC Queue Tests passed
+
+=== Order Book Tests ===
+Randomness seeded to: 491542653
+===============================================================================
+All tests passed (20 assertions in 7 test cases)
+
+✓ Order Book Tests passed
+
+=== FIX Parser Tests ===
+Randomness seeded to: 3789616661
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test_fix_parser is a Catch2 v3.4.0 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+FIX parser: malformed - missing SOH
+-------------------------------------------------------------------------------
+/home/buddywhitman/hft-engine/2_network/tests/test_fix_parser.cpp:51
+...............................................................................
+
+/home/buddywhitman/hft-engine/2_network/tests/test_fix_parser.cpp:56: FAILED:
+  REQUIRE( (!fix_msg.valid || fix_msg.msg_type == MsgType::NewOrderSingle) )
+with expansion:
+  false
+
+/home/buddywhitman/hft-engine/2_network/tests/test_fix_parser.cpp:56: FAILED:
+  {Unknown expression after the reported line}
+due to a fatal error condition:
+  SIGABRT - Abort (abnormal termination) signal
+
+===============================================================================
+test cases:  6 |  5 passed | 1 failed
+assertions: 16 | 14 passed | 2 failed
+
+✗ FIX Parser Tests failed
+
+=== AF_XDP Tests (Linux only) ===
+⊘ AF_XDP Tests (Linux only) binary not built (see build_log.txt)

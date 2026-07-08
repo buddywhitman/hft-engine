@@ -1,0 +1,15 @@
+2026-07-08T16:11:17+05:30
+Running ./2_network/bench_fix_pipeline
+Run on (4 X 3000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x2)
+  L1 Instruction 32 KiB (x2)
+  L2 Unified 256 KiB (x2)
+  L3 Unified 3072 KiB (x1)
+Load Average: 3.84, 3.07, 1.52
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+-----------------------------------------------------------------------------------
+Benchmark                         Time             CPU   Iterations UserCounters...
+-----------------------------------------------------------------------------------
+fix_parser_throughput          1.17 ms         1.17 ms          592 items_per_second=14.495k/s
+fix_parse_with_orderbook       1583 us         1583 us          372 items_per_second=16.9791k/s
