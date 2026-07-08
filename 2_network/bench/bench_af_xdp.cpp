@@ -1,6 +1,7 @@
 #include <benchmark/benchmark.h>
 #include "xsk_socket.hpp"
 #include "fix_message.hpp"
+#include "tsc_clock.hpp"
 #include <vector>
 #include <thread>
 #include <atomic>
@@ -11,6 +12,7 @@
 #include <arpa/inet.h>
 #include <cstring>
 
+using namespace hft;
 using namespace hft::net;
 
 // Benchmark: Socket-based packet reception (baseline)

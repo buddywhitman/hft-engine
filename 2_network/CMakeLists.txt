@@ -10,6 +10,12 @@ target_include_directories(network PUBLIC include)
 # assertions without aborting the whole test binary.
 target_compile_options(network PRIVATE -fPIC -fno-exceptions)
 
+# xsk_socket.hpp/.cpp use hft::TscClock (defined in orderbook's tsc_clock.cpp)
+# for RX-loop timing instead of a hardcoded-frequency duplicate. PUBLIC so
+# every consumer of `network` (bench_af_xdp below, and any future production
+# RX pipeline) gets the symbol without repeating this link dependency.
+target_link_libraries(network PUBLIC orderbook)
+
 # Look for libbpf and libxdp (optional)
 find_package(libbpf QUIET)
 find_package(libxdp QUIET)

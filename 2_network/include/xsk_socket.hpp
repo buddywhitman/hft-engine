@@ -1,6 +1,7 @@
 #pragma once
 #include "umem.hpp"
 #include "fix_message.hpp"
+#include "tsc_clock.hpp"
 #include <cstdint>
 #include <functional>
 #include <string>
@@ -23,32 +24,10 @@ struct XskConfig {
     bool        force_zero_copy = false;
 };
 
-// TSC (Time Stamp Counter) for ultra-low latency measurements
-class TscClock {
-public:
-    static uint64_t now() noexcept {
-        uint32_t lo, hi;
-        asm volatile("rdtsc" : "=a" (lo), "=d" (hi));
-        return ((uint64_t)hi << 32) | lo;
-    }
-
-    static void calibrate() noexcept {
-        // Calibrate TSC to nanoseconds
-        // On most modern systems: 1 TSC tick ≈ 1/cpu_freq ns
-        // This is system-specific and ideally read from /proc/cpuinfo
-        calibrated_ = true;
-    }
-
-    static uint64_t tsc_to_ns(uint64_t tsc_delta) noexcept {
-        // On a 3.0 GHz CPU: 1 TSC = 0.333 ns ≈ tsc_delta / 3
-        // This is approximate; production code should calibrate to CPU frequency
-        // Conservative estimate: assume 2 GHz
-        return (tsc_delta * 1000) / 2000;
-    }
-
-private:
-    static bool calibrated_;
-};
+// TSC timing uses hft::TscClock (tsc_clock.hpp), which calibrates against
+// CLOCK_MONOTONIC at runtime instead of assuming a fixed CPU frequency.
+// Unqualified TscClock:: calls below resolve to hft::TscClock via ordinary
+// unqualified lookup through the enclosing hft namespace.
 
 // Main AF_XDP socket for zero-copy packet reception
 class XskSocket {
