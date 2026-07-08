@@ -92,7 +92,7 @@ FixMessage parse(const uint8_t* buf, std::size_t len) noexcept {
                     msg.ord_type = value[0] - '0';
                 break;
             case 10:  // Checksum
-                if (value.size() > 0)
+                if (value.size() >= 2)
                     msg.checksum = ascii_to_digit(value[0]) * 10 +
                                   ascii_to_digit(value[1]);
                 break;
@@ -103,7 +103,13 @@ FixMessage parse(const uint8_t* buf, std::size_t len) noexcept {
         pos++;  // skip SOH
     }
 
-    msg.valid = true;
+    // A message is only valid if a recognized single-character MsgType (tag 35)
+    // was actually parsed. Without this check, a malformed message missing SOH
+    // delimiters silently swallows subsequent tag=value pairs into one giant
+    // value (since the value scan runs to end-of-buffer looking for SOH), never
+    // sets msg_type, yet previously still reported valid=true with a bogus/
+    // default-constructed message.
+    msg.valid = (msg.msg_type != MsgType::Unknown);
     return msg;
 }
 

@@ -9,9 +9,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # -march=native: use CPU-specific instructions
 # -funroll-loops: loop unrolling for pipelined execution
 # -flto: link-time optimization
-# -fno-exceptions: disable exceptions (not used in HFT path)
 # Note: Removed -Werror to allow warnings in dependencies
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -funroll-loops -flto -fno-exceptions")
+#
+# -fno-exceptions is intentionally NOT set globally here. It's applied only
+# to the orderbook/network production libraries (see their CMakeLists.txt).
+# Catch2's REQUIRE macro throws internally to unwind a failing assertion and
+# continue to the next test case; under -fno-exceptions that throw compiles
+# to a direct std::terminate() call, so any failing test SIGABRTs the whole
+# binary instead of reporting a clean failure. Global -fno-exceptions caused
+# exactly that on the FIX parser test suite in practice.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -funroll-loops -flto")
 
 # Profiling flags (optional, enabled by default)
 option(ENABLE_PROFILING "Enable performance profiling" ON)

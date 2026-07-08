@@ -4,7 +4,10 @@ add_library(orderbook STATIC
 )
 
 target_include_directories(orderbook PUBLIC include)
-target_compile_options(orderbook PRIVATE -fPIC)
+# -fno-exceptions scoped to the production hot-path library only — Catch2
+# (used by test_spsc/test_mpsc/test_orderbook below) needs exceptions to
+# report failing assertions without aborting the whole test binary.
+target_compile_options(orderbook PRIVATE -fPIC -fno-exceptions)
 
 # Tests
 add_executable(test_spsc tests/test_spsc.cpp)

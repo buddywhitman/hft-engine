@@ -5,7 +5,10 @@ add_library(network STATIC
 )
 
 target_include_directories(network PUBLIC include)
-target_compile_options(network PRIVATE -fPIC)
+# -fno-exceptions scoped to the production hot-path library only — Catch2
+# (used by test_fix_parser below) needs exceptions to report failing
+# assertions without aborting the whole test binary.
+target_compile_options(network PRIVATE -fPIC -fno-exceptions)
 
 # Look for libbpf and libxdp (optional)
 find_package(libbpf QUIET)

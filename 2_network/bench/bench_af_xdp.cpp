@@ -137,7 +137,7 @@ static void bench_fix_parse_latency(benchmark::State& state) {
         uint64_t tsc_start = TscClock::now();
 
         // Parse (mock)
-        fix::FixMessage parsed;
+        hft::fix::FixMessage parsed;
         parsed.valid = std::strlen(fix_msg) > 0;
 
         uint64_t tsc_end = TscClock::now();
