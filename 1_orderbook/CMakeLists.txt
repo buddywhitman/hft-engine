@@ -31,3 +31,6 @@ target_link_libraries(bench_orderbook PRIVATE orderbook benchmark::benchmark)
 
 add_executable(bench_realistic bench/bench_realistic.cpp)
 target_link_libraries(bench_realistic PRIVATE orderbook benchmark::benchmark)
+
+add_executable(bench_profiling bench/bench_profiling.cpp)
+target_link_libraries(bench_profiling PRIVATE orderbook benchmark::benchmark)

@@ -24,3 +24,12 @@ add_test(NAME test_fix_parser COMMAND test_fix_parser)
 # Benchmarks
 add_executable(bench_fix_pipeline bench/bench_fix_pipeline.cpp)
 target_link_libraries(bench_fix_pipeline PRIVATE network orderbook benchmark::benchmark)
+
+add_executable(bench_af_xdp bench/bench_af_xdp.cpp)
+target_link_libraries(bench_af_xdp PRIVATE network benchmark::benchmark)
+
+# Optional: AF_XDP integration tests (requires CAP_BPF on Linux)
+if(libbpf_FOUND)
+    # Placeholder for AF_XDP integration test
+    # Would require actual network interface access
+endif()
