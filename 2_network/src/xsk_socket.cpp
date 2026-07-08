@@ -41,6 +41,7 @@ XskSocket::XskSocket(const XskConfig& config, PacketCallback on_fix_message)
 }
 
 XskSocket::~XskSocket() {
+#ifdef HAVE_LIBBPF
     if (xsk_) {
         xsk_socket__close(xsk_);
     }
@@ -50,6 +51,7 @@ XskSocket::~XskSocket() {
     if (prog_) {
         bpf_object__close(prog_);
     }
+#endif
 }
 
 void XskSocket::run_rx_loop() {

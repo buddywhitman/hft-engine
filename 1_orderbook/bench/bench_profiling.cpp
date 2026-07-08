@@ -31,7 +31,7 @@ static void profile_spsc_throughput(benchmark::State& state) {
         // Bulk push-pop operations
         for (int i = 0; i < 100; ++i) {
             uint64_t tsc_start = __builtin_ia32_rdtsc();
-            queue.push(i);
+            [[maybe_unused]] bool pushed = queue.push(i);
             auto val = queue.pop();
             uint64_t tsc_end = __builtin_ia32_rdtsc();
 
@@ -44,7 +44,8 @@ static void profile_spsc_throughput(benchmark::State& state) {
 
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
-        state.counters["throughput"] = ops / state.seconds();
+        state.counters["throughput"] = benchmark::Counter(
+            static_cast<double>(ops), benchmark::Counter::kIsRate);
         state.counters["p50_cycles"] = latencies[latencies.size() / 2];
         state.counters["p95_cycles"] = latencies[latencies.size() * 95 / 100];
         state.counters["p99_cycles"] = latencies[latencies.size() * 99 / 100];
