@@ -3,7 +3,21 @@ project(hft-engine VERSION 1.0.0 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -funroll-loops -fno-exceptions -Werror")
+
+# Production-grade compiler flags: maximize performance
+# -O3: maximum optimization
+# -march=native: use CPU-specific instructions
+# -funroll-loops: loop unrolling for pipelined execution
+# -flto: link-time optimization
+# -fno-exceptions: disable exceptions (not used in HFT path)
+# Note: Removed -Werror to allow warnings in dependencies
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -funroll-loops -flto -fno-exceptions")
+
+# Profiling flags (optional, enabled by default)
+option(ENABLE_PROFILING "Enable performance profiling" ON)
+if(ENABLE_PROFILING)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
+endif()
 
 # FetchContent for dependencies
 include(FetchContent)
@@ -22,6 +36,17 @@ FetchContent_Declare(Catch2
     URL https://github.com/catchorg/Catch2/archive/v3.4.0.zip
 )
 FetchContent_MakeAvailable(Catch2)
+
+# Optional: AF_XDP support with libbpf
+find_package(libbpf QUIET)
+find_package(libxdp QUIET)
+
+if(libbpf_FOUND)
+    message(STATUS "[HFT] libbpf found: AF_XDP kernel-bypass enabled")
+    add_compile_definitions(HAVE_LIBBPF)
+else()
+    message(WARNING "[HFT] libbpf not found. AF_XDP disabled. Install: sudo apt-get install libbpf-dev")
+endif()
 
 # Component 1: Lock-free Order Book
 add_subdirectory(1_orderbook)
