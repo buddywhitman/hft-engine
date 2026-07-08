@@ -1,20 +1,45 @@
 # Benchmark Verification Report
 
-**Status:** ✅ VERIFIED WITH CAVEATS  
-**Date:** 2026-07-03  
-**Methodology:** Measured + compared to published literature
+**Status:** ✅ VERIFIED WITH CAVEATS
+**Date:** 2026-07-08 (updated — see native Linux run below; original 2026-07-03 section retained lower in this file)
+**Methodology:** Measured on real native Linux hardware with working `perf` counters + compared to published literature
 
 ---
 
 ## Executive Summary
 
-Your HFT engine's order book matching is **genuinely fast** (sub-100ns P99) and **outperforms published academic benchmarks by 100-300x**. However, this is a **component-level optimization**, not a complete trading system.
+Your HFT engine's order book matching is **genuinely fast** (sub-100ns P99 for hot-path operations) and **outperforms published academic benchmarks by 100-300x**. However, this is a **component-level optimization**, not a complete trading system.
 
 **Bottom line:** The code is correct and performs well. Don't claim it's "production-ready" or "faster than Citadel" without more context.
 
 ---
 
-## Verified Measurements (All Real, Not Speculated)
+## Verified Measurements — Native Linux (edge-node, 2026-07-08, authoritative)
+
+Source: `results/20260708_172505/`. CPU: Intel i5-6300U @ 2.4 GHz, governor=performance,
+`perf_event_paranoid=1`. This is the first run where every binary built, every
+test passed, and `perf` actually produced counter data — treat this table as
+the current source of truth over anything below it in this file.
+
+```
+SPSC Queue P99:                    15 ns  ✅ Real measurement (perf: IPC 1.28, cache-miss 0.74%)
+Order Book Match (hot cache) P99:  27 ns  ✅ Real measurement
+Deep Ladder (500 levels) P99:      31 ns  ✅ Real measurement
+Multi-Level Match (15x) P99:       25 ns  ✅ Real measurement
+Order Churn P99:                  137 ns  ✅ Real measurement
+Worst Case (100-level cross) P99: 11.6 µs ✅ Real measurement — ~4x worse than the
+                                            2026-07-03 estimate below, which came
+                                            from an undocumented machine
+FIX Parse (no order book):        120 ns/msg (8.3M msg/s) ✅ Real, after fixing a
+                                            throughput-counter bug (commit bb978f5)
+FIX Parse + Order Book:           155 ns/msg (6.5M msg/s) ✅ Real, same fix
+Socket recvfrom baseline:        1373 ns  ✅ Real syscall measurement (AF_XDP
+                                            comparison target, not simulated)
+```
+
+---
+
+## Original Measurements — 2026-07-03 (superseded, kept for history)
 
 ### Synthetic Benchmarks
 ```
@@ -23,13 +48,18 @@ Order Book Simple Match:     42 ns ✅ Real measurement
 FIX Parser:                  78 ns ✅ Real measurement
 ```
 
-### Realistic Benchmarks (New - addresses your concern)
+### Realistic Benchmarks
 ```
 Deep Ladder (500 levels) P99: 32 ns ✅ Real measurement
 Multi-Level Match (15x) P99:  32 ns ✅ Real measurement
 Order Churn P99:             124 ns ✅ Real measurement
 Worst Case (100-level) P99: 3011 ns ✅ Real measurement
 ```
+
+> These came from a machine whose CPU was never clearly documented (the
+> companion doc listed "AMD Ryzen 6-core," which doesn't match any host
+> used later in this project). The 2026-07-08 native Linux section above
+> is the one to cite.
 
 ---
 

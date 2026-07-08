@@ -1,9 +1,62 @@
 # Benchmark Results: HFT Engine SOTA Performance
 
+## Verified Native Linux Run (authoritative — supersedes the section below)
+
+**Date:** 2026-07-08
+**Host:** edge-node (Ubuntu, native Linux — not WSL2)
+**CPU:** Intel Core i5-6300U @ 2.4 GHz (2 cores / 4 threads, max 3.0 GHz)
+**Kernel:** Linux 6.8.0-134-generic
+**Governor:** performance (`sudo cpupower frequency-set -g performance`)
+**Compiler:** GCC 13.3.0, `-O3 -march=native -funroll-loops -flto`
+**perf:** `kernel.perf_event_paranoid=1` (unprivileged perf enabled)
+**Source:** `results/20260708_172505/` (raw logs and full `perf stat` output committed to repo)
+
+This is the first fully clean build/test/benchmark run on real hardware — zero
+build failures, all 4 test suites (387+112+20+21 = 540 assertions) passing,
+and working `perf` counters (previous runs on this same host either failed to
+build several targets or had `perf_event_paranoid` blocking all counter
+access; see commit history for the debugging trail).
+
+| Benchmark | P50 | P99 | Notes |
+|---|---|---|---|
+| SPSC push/pop | 13 ns | 15 ns | IPC 1.28, cache-miss rate 0.74%, branch-miss rate 0.04% (real `perf stat`) |
+| Order book: add, no match | 98 ns | 2.30 µs | Tail dominated by binary-search worst case on random prices |
+| Order book: add, with match | 24 ns | 27 ns | Hot-cache single-level match |
+| Realistic: deep ladder (500 levels) | 27 ns | 31 ns | Confirms O(log n) scaling holds at production depth |
+| Realistic: multi-level match (15 levels) | 23 ns | 25 ns | |
+| Realistic: order churn (add+cancel mix) | 45 ns | 137 ns | |
+| Realistic: worst case (100-level cross) | 2.61 µs | 11.6 µs | See note below — materially worse than the earlier synthetic estimate |
+| FIX parse only | — | — | 120 ns/message (8.3M msg/s), derived from raw per-iteration timing |
+| FIX parse + order book | — | — | 155 ns/message (6.5M msg/s) |
+| Socket `recvfrom` baseline (AF_XDP comparison) | — | — | 1373 ns — real syscall overhead, not simulated |
+
+**Note on the worst-case order book number:** the 2026-07-03 section below
+estimated P99 ≈ 3.0 µs for a 100-level crossing order, based on a different
+(and undocumented) machine. The real measurement here is **11.6 µs P99** —
+nearly 4x worse. This isn't a regression; it's the first time this scenario
+was measured on hardware whose provenance is actually known. Treat every
+number below this line, and above the historical section, as authoritative.
+
+**Note on FIX parser throughput:** an earlier version of `bench_fix_pipeline.cpp`
+called `state.SetItemsProcessed(messages.size())` without multiplying by
+`state.iterations()`, understating throughput by roughly the iteration count
+(reported ~13.7k msg/s against a real ~8.3M msg/s). Fixed in commit
+`bb978f5`; the 8.3M/6.5M msg/s figures above are the corrected values,
+cross-checked directly against the raw per-iteration Time column.
+
+---
+
+## Historical: Original Benchmark Section (2026-07-03, superseded above)
+
 **Date:** 2026-07-03  
 **CPU:** AMD Ryzen (6-core, 2688 MHz)  
 **Compiler:** GCC 13.3.0, O3 -march=native -funroll-loops  
 **Mode:** Single-threaded, CPU core pinning (taskset -c 2)
+
+> **Note:** this section predates the native-Linux verification run above and
+> was never re-confirmed against `perf` or a documented, reproducible host.
+> Kept for historical reference; do not cite these numbers without checking
+> the verified section first.
 
 ---
 
