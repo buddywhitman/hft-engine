@@ -1,74 +1,76 @@
 # HFT Engine: Lock-Free Order Book Matching System
 
-Production-grade, latency-optimized order book matching engine with sub-100 nanosecond P99 latency.
+Latency-focused order book matching engine in C++20: a wait-free SPSC ingress queue, an
+allocation-free order book and a zero-copy FIX parser, with an AF_XDP/eBPF ingress path and a
+Verilog FIX parser for FPGA experiments. It is a component-level engine, not a complete trading
+system (see [Limitations](#what-this-is-not)).
 
 ## Overview
 
-This is a complete implementation of a high-frequency trading order matching system, designed for ultra-low latency execution. The system prioritizes:
-
-- **Correct synchronization:** Wait-free SPSC queue, lock-free order book
-- **Predictable latency:** No allocations in hot path, cache-line aligned data structures
-- **Production scalability:** Handles 500+ price levels with constant performance
-- **Hardware efficiency:** Optimized for modern x86-64 CPUs with L1/L2/L3 cache awareness
+- **Synchronization:** wait-free SPSC queue (acquire/release), lock-free MPSC queue (Vyukov), plus a hazard-pointer reclamation utility
+- **Predictable latency:** no allocations in the hot path, cache-line aligned data structures
+- **Deep books:** insert latency stays flat from 10 to 500 price levels
+- **Hardware awareness:** 64-byte alignment, false-sharing elimination, RDTSC timing
 
 ## Architecture
 
 ```
-FIX Parser (ZC, no allocation) → SPSC Queue → Order Book Matching → Execution Callback
-        ~80 ns                  ~2-17 ns         ~32-124 ns (P99)      ~50 ns
+FIX Parser (zero-copy) → SPSC Queue → Order Book Matching → Execution Callback
+     120 ns/msg            15 ns p99      27 ns p99 (hot match)
 ```
 
 ### Component 1: Lock-Free SPSC Queue
-- **Algorithm:** Vyukov's wait-free queue with acquire/release ordering
-- **Latency:** 17 ns P99 (1-2 ns operation, 10 ns RDTSC overhead)
-- **Key optimization:** Separate cache lines for head/tail pointers (eliminate false sharing)
-- **Use case:** Ingress thread → matching thread communication
+- **Algorithm:** wait-free ring buffer with acquire/release ordering
+- **Latency:** 15 ns p99 push/pop ping-pong; 57M ops/s sustained
+- **Key optimization:** head and tail on separate cache lines (no false sharing)
+- **Use case:** ingress thread → matching thread
 
 ### Component 2: Order Book
 - **Data structure:** FlatPriceLadder (sorted vector with binary search)
-- **Latency:** 32 ns P99 (single level), 124 ns P99 (realistic churn), 3011 ns P99 (100-level cross)
-- **Scalability:** O(log n) search, O(n) insert; optimal for n < 500 levels
-- **Memory:** Pre-allocated order pool (no heap allocation in hot path)
+- **Latency:** 27 ns p99 hot-cache match, 31 ns p99 insert into a 500-level ladder, 137 ns p99 add+cancel churn, 11.6 µs p99 worst case (market order crossing 100 levels)
+- **Scalability:** O(log n) search, O(n) insert; a good fit below ~500 levels
+- **Memory:** pre-allocated order pool, no heap allocation in the hot path
 
 ### Component 3: FIX Parser
 - **Protocol:** FIX 4.2 (extensible)
-- **Latency:** 78 ns per message (synthetic), 100-500 ns (real fragmented messages)
-- **Allocation:** Zero-copy, all string fields are `string_view` into input buffer
-- **Robustness:** Validates checksum, handles edge cases
+- **Throughput:** 120 ns/msg (8.3M msg/s) parse only; 155 ns/msg (6.5M msg/s) parse + order book
+- **Allocation:** zero-copy; every string field is a `string_view` into the input buffer
+- **Robustness:** validates the checksum, handles edge cases
 
 ## Performance
 
-### Synthetic Benchmarks
-```
-SPSC Queue:        17 ns P99
-Order Add:         32-42 ns P99
-Order Match (1x):  42 ns P99
-FIX Parse:         78 ns per message
-```
+All numbers below are measured, not estimated. Run `results/20260708_172505/` on the edge node:
+Intel i5-6300U @ 2.4 GHz (2 cores / 4 threads), Linux 6.8, governor=performance,
+`perf` counters enabled. Full methodology and history are in
+[`BENCHMARK_VERIFICATION.md`](BENCHMARK_VERIFICATION.md).
 
-### Realistic Benchmarks (Production-like Workloads)
-```
-Deep Ladder (500 levels):       32 ns P99
-Multi-Level Match (15x):        32 ns P99
-Order Churn (add+cancel):      124 ns P99
-Worst Case (100-level cross):  3011 ns P99
-```
+| Benchmark | p99 |
+|---|---|
+| SPSC push/pop ping-pong | 15 ns (perf: IPC 1.28, cache-miss 0.74%) |
+| SPSC sustained throughput | 57M ops/s |
+| Order match, hot cache | 27 ns |
+| Deep ladder insert (500 levels) | 31 ns |
+| Multi-level match (15 levels) | 25 ns |
+| Order churn (add + cancel) | 137 ns |
+| Worst case: market order crossing 100 levels | 11.6 µs |
+| FIX parse only | 120 ns/msg (8.3M msg/s) |
+| FIX parse + order book | 155 ns/msg (6.5M msg/s) |
+| Kernel `recvfrom` baseline (AF_XDP comparison target) | 1,373 ns |
 
-### Comparison to Literature
-| Baseline | Latency | Our Engine | Improvement |
-|----------|---------|-----------|------------|
-| Vyukov MPSC (2012) | ~200-300 ns | 1-2 ns | 100-300x |
-| Academic baseline (2008) | ~500 ns | 1-2 ns | 250x |
-| Real-world HFT | 1-10 µs | 50-500 ns | 2-200x |
+A laptop-class CPU without hugepages or isolated cores, so absolute numbers would improve on
+server hardware; the relative shape (flat insert cost across depth, linear worst-case cross)
+is the useful part. Earlier figures from an undocumented machine (2026-07-03) are kept in
+`BENCHMARK_VERIFICATION.md` for history and are superseded by this table.
 
-**Note:** Improvements reflect 14 years of Moore's law plus algorithmic simplicity (SPSC vs MPSC). Not a magic breakthrough.
+No head-to-head comparison against other engines has been run on the same hardware, so this
+README makes no "faster than X" claims.
 
 ## Technical Highlights
 
 ### Memory Ordering
 - **SPSC queue:** acquire/release (sufficient for single producer/consumer)
 - **Order pool:** atomic operations with proper barriers
-- **Benchmark impact:** 3-5x faster than seq_cst
+- **Why not seq_cst:** a full fence per operation is unnecessary for one producer and one consumer (not separately benchmarked here)
 
 ### Cache Optimization
 - **Cache-line alignment:** 64-byte alignment for head/tail pointers
@@ -77,8 +79,7 @@ Worst Case (100-level cross):  3011 ns P99
 
 ### Lock-Free Correctness
 - **No mutexes, spinlocks, or read-write locks** in hot path
-- **Linearizability:** Proven via Relacy memory model checker
-- **All unit tests pass:** 20 assertions in 7 test cases
+- **All unit tests pass:** 540 assertions in 25 test cases (SPSC, MPSC, order book, FIX parser)
 
 ## Building
 
@@ -120,7 +121,7 @@ taskset -c 2 ./1_orderbook/bench_orderbook
 
 ```bash
 ctest --verbose
-# All 20 assertions pass, covering:
+# All 540 assertions in 25 test cases pass, covering:
 # - Order insertion/cancellation
 # - Matching logic (single + multi-level)
 # - Price level management
@@ -147,7 +148,7 @@ MatchResult {
 ## Design Philosophy
 
 See [`docs/design_decisions.md`](docs/design_decisions.md) for rationale on:
-- Why acquire/release vs seq_cst (3-5x latency difference)
+- Why acquire/release vs seq_cst
 - Why flat array vs std::map (60x faster for <500 levels)
 - Why cache-line alignment (100+ ns false sharing cost)
 - Memory ordering proofs and linearizability arguments
